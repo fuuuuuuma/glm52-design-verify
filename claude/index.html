@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Helix — Structural intelligence platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0C0D10;--bg-elev:#14161A;--ink:#EDE9E0;
+  --ink-2:rgba(237,233,224,.60);--ink-3:rgba(237,233,224,.36);
+  --line:rgba(237,233,224,.12);--line-2:rgba(237,233,224,.22);
+  --accent:#CBA56A;--accent-soft:rgba(203,165,106,.13);
+  --fd:"Fraunces","Hoefler Text",Georgia,serif;
+  --fb:ui-sans-serif,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  --fm:ui-monospace,"SF Mono",Menlo,monospace;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--fb);line-height:1.62;-webkit-font-smoothing:antialiased;letter-spacing:.01em;overflow-x:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(22px,5vw,64px)}
+.mono{font-family:var(--fm);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+.serif{font-family:var(--fd)}
+a{color:inherit;text-decoration:none}
+#prog{position:fixed;top:0;left:0;height:2px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;z-index:60;will-change:transform}
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:64px 64px;mask-image:radial-gradient(120% 90% at 50% 0%,#000 30%,transparent 80%);opacity:.4}
+main{position:relative;z-index:1}
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.r{opacity:0;animation:fu .95s var(--ease) forwards}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .r,.reveal{opacity:1!important;transform:none!important;animation:none!important}
+}
+
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);background:rgba(12,13,16,.66);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:72px}
+.brand{font-family:var(--fd);font-weight:600;font-size:21px;letter-spacing:.04em;display:flex;align-items:center;gap:11px}
+.brand i{width:11px;height:11px;border:1.5px solid var(--accent);border-radius:50%;display:inline-block;position:relative}
+.brand i::after{content:"";position:absolute;inset:3px;background:var(--accent);border-radius:50%}
+.links{display:flex;gap:34px;align-items:center}
+.links a{font-size:14px;color:var(--ink-2);position:relative;padding:4px 0}
+.links a:not(.btn)::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease)}
+.links a:not(.btn):hover{color:var(--ink)}.links a:not(.btn):hover::after{transform:scaleX(1);transform-origin:left}
+.btn{font-family:var(--fb);font-size:14px;border-radius:2px;cursor:pointer;transition:transform .25s var(--ease),box-shadow .3s var(--ease),border-color .3s,color .3s,background .3s;display:inline-flex;align-items:center;gap:9px;border:1px solid transparent;will-change:transform}
+.btn-fill{background:var(--accent);color:#191307;padding:11px 20px;font-weight:500}
+.btn-fill:hover{box-shadow:0 12px 34px -12px var(--accent)}
+.btn-ghost{border-color:var(--line-2);color:var(--ink);padding:11px 20px;background:transparent}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.links .btn-fill{padding:10px 18px}
+@media(max-width:760px){.links a:not(.btn){display:none}}
+
+.hero{position:relative;overflow:hidden;min-height:88vh;display:flex;align-items:center;padding:clamp(48px,8vw,96px) 0}
+#net{position:absolute;inset:0;z-index:0;display:block}
+.hero-veil{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(70% 80% at 28% 42%,rgba(12,13,16,.55),rgba(12,13,16,.86) 78%),
+            radial-gradient(40% 50% at 78% 30%,var(--accent-soft),transparent 70%)}
+.hero-inner{position:relative;z-index:2;width:100%}
+.eyebrow{display:inline-flex;align-items:center;gap:12px;margin-bottom:30px}
+.eyebrow::before{content:"";width:34px;height:1px;background:var(--accent)}
+h1{font-family:var(--fd);font-weight:400;font-size:clamp(2.7rem,7.4vw,6.1rem);line-height:.99;letter-spacing:-.018em;max-width:15ch}
+h1 em{font-style:italic;color:var(--accent)}
+.lede{margin-top:28px;max-width:52ch;font-size:clamp(16px,1.5vw,19px);color:var(--ink-2);line-height:1.66}
+.cta{margin-top:40px;display:flex;gap:14px;flex-wrap:wrap}
+.stats{margin-top:clamp(52px,7vw,82px);display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);max-width:760px}
+.stat{padding:24px 24px 8px 0;border-right:1px solid var(--line)}
+.stat:last-child{border-right:0}
+.stat .n{font-family:var(--fd);font-size:clamp(1.9rem,3.4vw,2.7rem);font-weight:500;letter-spacing:-.01em;display:flex;align-items:baseline;gap:4px}
+.stat .u{font-size:.46em;color:var(--ink-2);font-family:var(--fm);letter-spacing:.04em}
+.stat .l{font-family:var(--fm);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin-top:9px}
+@media(max-width:680px){.stats{grid-template-columns:1fr}.stat{border-right:0;border-bottom:1px solid var(--line);padding-bottom:18px}}
+
+.sec{padding:clamp(60px,8vw,108px) 0;position:relative}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:clamp(46px,6vw,72px);flex-wrap:wrap}
+.sec-head h2{font-family:var(--fd);font-weight:400;font-size:clamp(1.8rem,3.6vw,2.9rem);letter-spacing:-.015em;line-height:1.04;max-width:18ch;position:relative;padding-bottom:20px}
+.sec-head h2::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--accent);transition:width .9s .25s var(--ease)}
+.reveal.in h2::after{width:72px}
+.sec-head p{color:var(--ink-2);max-width:38ch;font-size:15px}
+
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.feat{background:var(--bg);padding:clamp(28px,3vw,40px);transition:background .4s}
+.feat:hover{background:var(--bg-elev)}
+.feat .num{font-family:var(--fm);font-size:12px;letter-spacing:.16em;color:var(--ink-3);transition:color .4s}
+.feat:hover .num{color:var(--accent)}
+.feat h3{font-family:var(--fd);font-weight:500;font-size:1.5rem;margin:24px 0 14px;letter-spacing:-.01em}
+.feat p{color:var(--ink-2);font-size:14.5px;line-height:1.64}
+.feat .rule{height:1px;background:var(--line-2);margin-top:26px;transform:scaleX(.18);transform-origin:left;transition:transform .5s var(--ease)}
+.feat:hover .rule{transform:scaleX(1);background:var(--accent)}
+@media(max-width:860px){.feats{grid-template-columns:1fr}}
+
+.bill{display:inline-flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:3px;margin-bottom:40px;position:relative}
+.bill button{font-family:var(--fb);font-size:13px;color:var(--ink-2);background:transparent;border:0;padding:9px 18px;cursor:pointer;border-radius:2px;transition:color .3s,background .3s;display:flex;align-items:center;gap:8px}
+.bill button.on{background:var(--accent);color:#191307;font-weight:500}
+.bill .save{font-family:var(--fm);font-size:10px;letter-spacing:.1em;padding:2px 7px;border:1px solid currentColor;border-radius:2px;opacity:0;transition:opacity .3s}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.plan{border:1px solid var(--line);padding:clamp(26px,2.6vw,36px);display:flex;flex-direction:column;transition:transform .35s var(--ease),border-color .4s var(--ease),box-shadow .4s;position:relative;background:var(--bg);will-change:transform}
+.plan:hover{transform:translateY(-7px);border-color:var(--line-2)}
+.plan.feat-plan{border-color:var(--accent)}
+.plan.feat-plan::before{content:"Most chosen";position:absolute;top:-11px;left:clamp(26px,2.6vw,36px);background:var(--accent);color:#191307;font-family:var(--fm);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:5px 11px}
+.plan .pname{font-family:var(--fd);font-size:1.3rem;font-weight:500}
+.plan .pdesc{color:var(--ink-3);font-size:13.5px;margin-top:8px;min-height:42px}
+.price{margin:24px 0 4px;display:flex;align-items:baseline;gap:7px}
+.price .amt{font-family:var(--fd);font-size:2.7rem;font-weight:500;letter-spacing:-.02em}
+.price .per{font-family:var(--fm);font-size:12px;color:var(--ink-3);letter-spacing:.06em}
+.pbill{font-family:var(--fm);font-size:10.5px;letter-spacing:.08em;color:var(--ink-3);min-height:16px;margin-bottom:22px}
+.plan ul{list-style:none;display:flex;flex-direction:column;gap:13px;margin:6px 0 30px;flex:1}
+.plan li{font-size:14px;color:var(--ink-2);display:flex;gap:11px;align-items:flex-start}
+.plan li::before{content:"";flex:none;margin-top:7px;width:7px;height:7px;border:1px solid var(--accent);transform:rotate(45deg)}
+.plan .btn{width:100%;justify-content:center}
+@media(max-width:860px){.plans{grid-template-columns:1fr}.plan.feat-plan{order:-1}}
+
+footer{border-top:1px solid var(--line);padding:clamp(56px,7vw,90px) 0 40px;position:relative;z-index:1}
+.foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:clamp(48px,7vw,80px)}
+.foot-brand{font-family:var(--fd);font-weight:600;font-size:clamp(3rem,9vw,6.5rem);letter-spacing:.01em;line-height:.9}
+.foot-cols{display:flex;gap:clamp(40px,6vw,90px);flex-wrap:wrap}
+.fcol h4{font-family:var(--fm);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:18px}
+.fcol a{display:block;color:var(--ink-2);font-size:14px;margin-bottom:11px;transition:color .3s}
+.fcol a:hover{color:var(--accent)}
+.foot-base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:30px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-3);font-family:var(--fm);letter-spacing:.04em}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+<div class="bg-grid"></div>
+<main>
+<nav>
+  <div class="wrap nav-in">
+    <div class="brand"><i></i>HELIX</div>
+    <div class="links">
+      <a href="#platform">Platform</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#docs">Docs</a>
+      <a href="#access" class="btn btn-fill" data-mag>Request access</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="hero-veil"></div>
+  <div class="wrap hero-inner">
+    <span class="eyebrow mono r">Structural intelligence platform</span>
+    <h1 class="r" style="animation-delay:.08s">Build systems that <em>hold under load.</em></h1>
+    <p class="lede r" style="animation-delay:.16s">Helix is the structural intelligence platform for teams designing systems that can't fall down. Model every dependency, hold your constraints invariant, and ship with full provenance.</p>
+    <div class="cta r" style="animation-delay:.24s">
+      <a href="#access" class="btn btn-fill" data-mag>Request access →</a>
+      <a href="#platform" class="btn btn-ghost">Read the thesis</a>
+    </div>
+    <div class="stats r" style="animation-delay:.34s">
+      <div class="stat"><div class="n serif"><span data-count="12.4" data-dec="1" data-suf="M">0</span></div><div class="l">nodes resolved live</div></div>
+      <div class="stat"><div class="n serif"><span data-count="0.4" data-dec="1">0</span><span class="u">ms</span></div><div class="l">median constraint solve</div></div>
+      <div class="stat"><div class="n serif"><span data-count="99.99" data-dec="2" data-suf="%">0</span></div><div class="l">structural uptime</div></div>
+    </div>
+  </div>
+</header>
+
+<section class="sec" id="platform">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2 class="serif">Three primitives. <br>One load-bearing layer.</h2>
+      <p>Every Helix system is built from the same parts — so the things holding production up are legible, testable, and never a mystery.</p>
+    </div>
+    <div class="feats reveal" style="transition-delay:.1s">
+      <div class="feat"><div class="num">01 / TOPOLOGY</div><h3>Topology engine</h3><p>Map every dependency as a living graph. Helix recomputes the whole structure the moment anything shifts — no stale diagrams, no surprise coupling.</p><div class="rule"></div></div>
+      <div class="feat"><div class="num">02 / CONSTRAINTS</div><h3>Constraint solver</h3><p>Declare the rules your system must never break. We hold them invariant across every change and tell you the instant a deploy would violate one.</p><div class="rule"></div></div>
+      <div class="feat"><div class="num">03 / PROVENANCE</div><h3>Provenance ledger</h3><p>Every state carries its lineage. Trace any value in production back to the exact decision, commit, and input that produced it.</p><div class="rule"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="pricing">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2 class="serif">Priced for the cost <br>of being wrong.</h2>
+      <p>Start free while you map your first system. Pay only when Helix is holding something you can't afford to drop.</p>
+    </div>
+    <div class="reveal">
+      <div class="bill" id="bill" role="group" aria-label="Billing period">
+        <button data-mode="monthly" class="on">Monthly</button>
+        <button data-mode="annual">Annual <span class="save" id="saveTag">save 20%</span></button>
+      </div>
+    </div>
+    <div class="plans reveal" style="transition-delay:.1s">
+      <div class="plan">
+        <div class="pname serif">Studio</div>
+        <div class="pdesc">For individuals mapping their first system.</div>
+        <div class="price"><span class="amt serif">$0</span><span class="per">forever</span></div>
+        <div class="pbill">no card required</div>
+        <ul><li>1 workspace</li><li>Up to 3 systems</li><li>Topology engine</li><li>Community support</li></ul>
+        <a href="#access" class="btn btn-ghost">Start free</a>
+      </div>
+      <div class="plan feat-plan">
+        <div class="pname serif">Practice</div>
+        <div class="pdesc">For teams who can't afford to guess.</div>
+        <div class="price"><span class="amt serif" id="practiceAmt">$48</span><span class="per">/ seat · mo</span></div>
+        <div class="pbill" id="practiceNote">billed monthly</div>
+        <ul><li>Unlimited systems</li><li>Constraint solver</li><li>Provenance ledger</li><li>Priority support</li></ul>
+        <a href="#access" class="btn btn-fill" data-mag>Request access</a>
+      </div>
+      <div class="plan">
+        <div class="pname serif">Enterprise</div>
+        <div class="pdesc">For organizations where downtime is existential.</div>
+        <div class="price"><span class="amt serif">Let's talk</span></div>
+        <div class="pbill">custom terms</div>
+        <ul><li>SSO &amp; audit log</li><li>On-prem deployment</li><li>Dedicated SRE</li><li>99.99% SLA</li></ul>
+        <a href="#access" class="btn btn-ghost">Contact sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="docs">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand serif">HELIX</div>
+      <div class="foot-cols">
+        <div class="fcol"><h4>Product</h4><a href="#">Topology</a><a href="#">Constraints</a><a href="#">Provenance</a><a href="#">Changelog</a></div>
+        <div class="fcol"><h4>Company</h4><a href="#">Thesis</a><a href="#">Careers</a><a href="#">Security</a><a href="#">Contact</a></div>
+        <div class="fcol"><h4>Resources</h4><a href="#">Docs</a><a href="#">API</a><a href="#">Status</a><a href="#">Community</a></div>
+      </div>
+    </div>
+    <div class="foot-base"><span>© 2026 Helix Systems — built to hold.</span><span>Modeled in San Francisco</span></div>
+  </div>
+</footer>
+</main>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function tween(from,to,dur,step,done){
+    if(reduce){ step(to); if(done)done(); return; }
+    var t0=performance.now();
+    function fr(now){
+      var p=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-p,3);
+      step(from+(to-from)*e);
+      if(p<1)requestAnimationFrame(fr); else if(done)done();
+    }
+    requestAnimationFrame(fr);
+  }
+
+  /* scroll progress */
+  var bar=document.getElementById('prog');
+  function prog(){ var max=document.body.scrollHeight-innerHeight; bar.style.transform='scaleX('+(max>0?Math.min(1,scrollY/max):0)+')'; }
+  addEventListener('scroll',prog,{passive:true}); prog();
+
+  /* scroll reveal */
+  var rev=[].slice.call(document.querySelectorAll('.reveal'));
+  if('IntersectionObserver'in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.15});
+    rev.forEach(function(e){io.observe(e);});
+  } else { rev.forEach(function(e){e.classList.add('in');}); }
+
+  /* count up */
+  var cnt=[].slice.call(document.querySelectorAll('[data-count]'));
+  function runCount(el){
+    var to=parseFloat(el.dataset.count), dec=+(el.dataset.dec||0), suf=el.dataset.suf||'';
+    tween(0,to,1500,function(v){ el.textContent=v.toFixed(dec)+suf; });
+  }
+  if('IntersectionObserver'in window){
+    var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){runCount(e.target);io2.unobserve(e.target);}});},{threshold:.6});
+    cnt.forEach(function(e){io2.observe(e);});
+  } else { cnt.forEach(runCount); }
+
+  /* billing toggle */
+  var bill=document.getElementById('bill');
+  if(bill){
+    var btns=[].slice.call(bill.querySelectorAll('button')),
+        amt=document.getElementById('practiceAmt'),
+        note=document.getElementById('practiceNote'),
+        save=document.getElementById('saveTag'),
+        data={monthly:{p:48,note:'billed monthly'},annual:{p:38,note:'billed annually · $456/yr'}},
+        cur=48;
+    function set(mode){
+      btns.forEach(function(b){b.classList.toggle('on',b.dataset.mode===mode);});
+      var d=data[mode];
+      tween(cur,d.p,450,function(v){ amt.textContent='$'+Math.round(v); });
+      cur=d.p; note.textContent=d.note;
+      save.style.opacity = mode==='annual'?'1':'0';
+    }
+    btns.forEach(function(b){b.addEventListener('click',function(){set(b.dataset.mode);});});
+  }
+
+  /* hero dependency graph */
+  (function(){
+    var c=document.getElementById('net'); if(!c)return;
+    var ctx=c.getContext('2d'), hero=document.querySelector('.hero');
+    var w,h,dpr,nodes=[],mouse={x:-999,y:-999,on:false};
+    var COUNT=innerWidth<700?32:60, LINK=148, MLINK=168;
+    function size(){
+      dpr=Math.min(2,devicePixelRatio||1); w=hero.clientWidth; h=hero.clientHeight;
+      c.width=w*dpr; c.height=h*dpr; c.style.width=w+'px'; c.style.height=h+'px'; ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    function init(){ nodes=[]; for(var i=0;i<COUNT;i++) nodes.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22}); }
+    function step(){
+      ctx.clearRect(0,0,w,h);
+      for(var i=0;i<nodes.length;i++){
+        var a=nodes[i]; a.x+=a.vx; a.y+=a.vy;
+        if(a.x<0||a.x>w)a.vx*=-1; if(a.y<0||a.y>h)a.vy*=-1;
+        if(mouse.on){ var dx=a.x-mouse.x,dy=a.y-mouse.y,d=Math.hypot(dx,dy); if(d<MLINK&&d>0){ var f=(1-d/MLINK)*0.7; a.x+=dx/d*f; a.y+=dy/d*f; } }
+      }
+      for(var i2=0;i2<nodes.length;i2++){ var p=nodes[i2];
+        for(var j=i2+1;j<nodes.length;j++){ var q=nodes[j], ddx=p.x-q.x,ddy=p.y-q.y,dd=Math.hypot(ddx,ddy);
+          if(dd<LINK){ ctx.strokeStyle='rgba(203,165,106,'+((1-dd/LINK)*0.16).toFixed(3)+')'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke(); } } }
+      if(mouse.on){ for(var k=0;k<nodes.length;k++){ var n=nodes[k], mdx=n.x-mouse.x,mdy=n.y-mouse.y,md=Math.hypot(mdx,mdy);
+        if(md<MLINK){ ctx.strokeStyle='rgba(203,165,106,'+((1-md/MLINK)*0.5).toFixed(3)+')'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(n.x,n.y); ctx.lineTo(mouse.x,mouse.y); ctx.stroke(); } } }
+      for(var m=0;m<nodes.length;m++){ ctx.fillStyle='rgba(237,233,224,0.5)'; ctx.beginPath(); ctx.arc(nodes[m].x,nodes[m].y,1.5,0,7); ctx.fill(); }
+    }
+    var running=false,raf;
+    function loop(){ step(); raf=requestAnimationFrame(loop); }
+    function start(){ if(running||reduce)return; running=true; loop(); }
+    function stop(){ running=false; cancelAnimationFrame(raf); }
+    size(); init(); step();
+    if(!reduce){
+      start();
+      addEventListener('resize',function(){ size(); init(); });
+      hero.addEventListener('pointermove',function(e){ var r=hero.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; mouse.on=true; });
+      hero.addEventListener('pointerleave',function(){ mouse.on=false; mouse.x=-999; mouse.y=-999; });
+      if('IntersectionObserver'in window){ new IntersectionObserver(function(es){es.forEach(function(e){ e.isIntersecting?start():stop(); });},{threshold:0}).observe(hero); }
+    }
+  })();
+
+  /* micro-interactions: magnetic buttons + card tilt */
+  if(!reduce){
+    [].slice.call(document.querySelectorAll('[data-mag]')).forEach(function(b){
+      b.addEventListener('pointermove',function(e){ var r=b.getBoundingClientRect(); b.style.transform='translate('+((e.clientX-r.left-r.width/2)*0.25).toFixed(1)+'px,'+((e.clientY-r.top-r.height/2)*0.35).toFixed(1)+'px)'; });
+      b.addEventListener('pointerleave',function(){ b.style.transform=''; });
+    });
+    [].slice.call(document.querySelectorAll('.plan')).forEach(function(card){
+      card.addEventListener('pointermove',function(e){ var r=card.getBoundingClientRect(), rx=(((e.clientY-r.top)/r.height)-.5)*-4, ry=(((e.clientX-r.left)/r.width)-.5)*4; card.style.transform='translateY(-7px) perspective(820px) rotateX('+rx.toFixed(2)+'deg) rotateY('+ry.toFixed(2)+'deg)'; });
+      card.addEventListener('pointerleave',function(){ card.style.transform=''; });
+    });
+  }
+})();
+</script>
+</body>
+</html>
